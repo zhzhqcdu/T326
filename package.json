@@ -1,0 +1,30 @@
+{
+  "name": "signature",
+  "description": "signature application created by thinkjs",
+  "version": "1.1.0",
+  "scripts": {
+    "start": "node www/development.js",
+    "compile": "babel --presets es2015-loose,stage-1 --plugins transform-runtime src/ --out-dir app/ --source-maps",
+    "watch-compile": "node -e \"console.log('<npm run watch-compile> no longer need, use <npm start> command direct.');console.log();\"",
+    "watch": "npm run watch-compile"
+  },
+  "dependencies": {
+    "babel-runtime": "6.x.x",
+    "jade": "^1.11.0",
+    "mongodb": "^2.0.48",
+    "source-map-support": "^0.4.0",
+    "think-cors": "^1.0.8",
+    "thinkjs": "2.2.x",
+    "tracer": "^0.8.3",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel-cli": "6.x.x",
+    "babel-preset-es2015-loose": "6.x.x",
+    "babel-preset-stage-1": "6.x.x",
+    "babel-plugin-transform-runtime": "6.x.x",
+    "babel-core": "6.x.x"
+  },
+  "repository": "https://bitbucket.org/liiklin/signatureweb",
+  "license": "MIT"
+}

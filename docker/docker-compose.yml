@@ -1,0 +1,4 @@
+signature:
+  image: signatureweb
+  ports:
+  - '8360:8360'

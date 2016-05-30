@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>签到管理</title>
+    <meta name="description" content="签到管理">
+    <meta name="keywords" content="签到管理">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="apple-mobile-web-app-title" content="签到管理" />
+    <link rel="stylesheet" href="/static/css/amazeui.min.css">
+    <link rel="stylesheet" href="/static/css/amazeui.datatables.min.css" />
+
+</head>
+
+<body>
+    <div class="am-g" style="margin: 20px 0px;">
+        <div class="am-u-sm-12">
+            <div name="input">
+                <div class="am-input-group">
+                    <input type="text" class="am-form-field" placeholder="查询请输入班级名 或 开班期数" id="queryWords" value="期朱莎井控班">
+                    <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button" id="search">
+              <span class="am-icon-search"></span>
+                    </button>
+                    </span>
+                </div>
+            </div>
+            <div id="info" class="am-scrollable-vertical" style="margin: 10px 0px;">
+                <table class="am-table am-table-bordered am-table-centered am-table-striped am-table-bordered am-table-compact am-text-nowrap" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="table-id">班级名称</th>
+                            <th class="table-date">开班期数</th>
+                            <th class="table-date">班主任</th>
+                            <th class="table-date">教室</th>
+                            <th class="table-date">报名人数</th>
+                            <th class="table-date">签到人数</th>
+                            <th class="table-date">开班时间</th>
+                            <th class="table-date">结业时间</th>
+                            <th class="table-date">选择</th>
+                        </tr>
+                    </thead>
+                    <tbody id="classInfos">
+                        <!-- <tr>
+                            <td class="table-id"><a href='#'>班级名称</a></td>
+                            <td class="table-date">开班期数</td>
+                            <td class="table-date">班主任</td>
+                            <td class="table-date">教室</td>
+                            <td class="table-date">报名人数</td>
+                            <td class="table-date">签到人数</td>
+                            <td class="table-date">开班时间</td>
+                            <td class="table-date">结业时间</td>
+                            <td class="table-date">
+                                <label class="am-checkbox-inline">
+                                    <input type="checkbox" value="" data-am-ucheck>
+                                </label>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--模版-->
+    <script type="text/template" charset="utf-8" id='classTmp'>
+      {{?it.length}}
+        {{~it:val:index}}
+          <tr id="{{=val._id}}">
+            <td class="table-id"><a href='/classes/{{=val._id}}'>{{=val.class_name}}</a></td>
+            <td class="table-date">{{=val.semester}}</td>
+            <td class="table-date">{{=val.class_teacher}}</td>
+            <td class="table-date">{{=val.class_room}}</td>
+            <td class="table-date">{{=val.numbers}}</td>
+            <td class="table-date">{{=_.has(val,"signIn")?val.signIn:0}}</td>
+            <td class="table-date">{{=moment(val.start_date).format('YYYY-MM-DD')}}</td>
+            <td class="table-date">{{=moment(val.end_date).format('YYYY-MM-DD')}}</td>
+            <td class="table-date">
+                <label class="am-checkbox-inline">
+                    <input type="checkbox" value="" data-am-ucheck>
+                </label>
+            </td>
+          </tr>
+        {{~}}
+      {{??}}
+          <tr>
+           <td colspan="6" class="am-text-middle">
+             暂无查询到班级信息
+           </td>
+          <tr>
+      {{?}}
+    </script>
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/dot.min.js"></script>
+<script src="/static/js/amazeui.min.js"></script>
+<script src="/static/js/amazeui.datatables.min.js"></script>
+<script src="/static/js/dataTables.responsive.min.js"></script>
+<script src="/static/js/underscore-min.js"></script>
+<script src="/static/js/moment.min.js"></script>
+<script src="/static/js/signatureManager.js"></script>
+
+</html>

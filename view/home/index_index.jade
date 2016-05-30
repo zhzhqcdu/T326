@@ -1,0 +1,109 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    |     
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    |     
+    title &#x7B7E;&#x5230;&#x7BA1;&#x7406;
+    |     
+    meta(name='description', content='签到管理')
+    |     
+    meta(name='keywords', content='签到管理')
+    |     
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no')
+    |     
+    meta(name='renderer', content='webkit')
+    |     
+    meta(http-equiv='Cache-Control', content='no-siteapp')
+    |     
+    meta(name='apple-mobile-web-app-title', content='签到管理')
+    |     
+    link(rel='stylesheet', href='/static/css/amazeui.min.css')
+    |     
+    link(rel='stylesheet', href='/static/css/amazeui.datatables.min.css')
+  body
+    .am-g(style='margin: 20px 0px;')
+      .am-u-sm-12
+        div(name='input')
+          .am-input-group
+            input#queryWords.am-form-field(type='text', placeholder='查询请输入班级名 或 开班期数', value='期朱莎井控班')
+            |                     
+            span.am-input-group-btn
+              button#search.am-btn.am-btn-default(type='button')
+                span.am-icon-search
+        |             
+        #info.am-scrollable-vertical(style='margin: 10px 0px;')
+          table.am-table.am-table-bordered.am-table-centered.am-table-striped.am-table-bordered.am-table-compact.am-text-nowrap(width='100%')
+            thead
+              tr
+                th.table-id &#x73ED;&#x7EA7;&#x540D;&#x79F0;
+                |                             
+                th.table-date &#x5F00;&#x73ED;&#x671F;&#x6570;
+                |                             
+                th.table-date &#x73ED;&#x4E3B;&#x4EFB;
+                |                             
+                th.table-date &#x6559;&#x5BA4;
+                |                             
+                th.table-date &#x62A5;&#x540D;&#x4EBA;&#x6570;
+                |                             
+                th.table-date &#x7B7E;&#x5230;&#x4EBA;&#x6570;
+                |                             
+                th.table-date &#x5F00;&#x73ED;&#x65F6;&#x95F4;
+                |                             
+                th.table-date &#x7ED3;&#x4E1A;&#x65F6;&#x95F4;
+                |                             
+                th.table-date &#x9009;&#x62E9;
+            |                     
+            tbody#classInfos
+              //
+                <tr>
+                <td class="table-id"><a href='#'>班级名称</a></td>
+                <td class="table-date">开班期数</td>
+                <td class="table-date">班主任</td>
+                <td class="table-date">教室</td>
+                <td class="table-date">报名人数</td>
+                <td class="table-date">签到人数</td>
+                <td class="table-date">开班时间</td>
+                <td class="table-date">结业时间</td>
+                <td class="table-date">
+                <label class="am-checkbox-inline">
+                <input type="checkbox" value="" data-am-ucheck>
+                </label>
+                </td>
+                </tr>
+    // 模版
+    script#classTmp(type='text/template', charset='utf-8').
+      {{?it.length}}
+      {{~it:val:index}}
+      <tr id="{{=val._id}}">
+      <td class="table-id"><a href='/classes/{{=val._id}}'>{{=val.class_name}}</a></td>
+      <td class="table-date">{{=val.semester}}</td>
+      <td class="table-date">{{=val.class_teacher}}</td>
+      <td class="table-date">{{=val.class_room}}</td>
+      <td class="table-date">{{=val.numbers}}</td>
+      <td class="table-date">{{=_.has(val,"signIn")?val.signIn:0}}</td>
+      <td class="table-date">{{=moment(val.start_date).format('YYYY-MM-DD')}}</td>
+      <td class="table-date">{{=moment(val.end_date).format('YYYY-MM-DD')}}</td>
+      <td class="table-date">
+      <label class="am-checkbox-inline">
+      <input type="checkbox" value="" data-am-ucheck>
+      </label>
+      </td>
+      </tr>
+      {{~}}
+      {{??}}
+      <tr>
+      <td colspan="6" class="am-text-middle">
+      暂无查询到班级信息
+      </td>
+      <tr>
+      {{?}}
+  script(src='/static/js/jquery.min.js')
+  script(src='/static/js/dot.min.js')
+  script(src='/static/js/amazeui.min.js')
+  script(src='/static/js/amazeui.datatables.min.js')
+  script(src='/static/js/dataTables.responsive.min.js')
+  script(src='/static/js/underscore-min.js')
+  script(src='/static/js/moment.min.js')
+  script(src='/static/js/signatureManager.js')
