@@ -1,6 +1,7 @@
 'use strict';
 
 import _ from 'underscore';
+import moment from 'moment';
 const logger = require('tracer').colorConsole();
 
 export default class extends think.controller.rest {
@@ -10,7 +11,7 @@ export default class extends think.controller.rest {
         // logger.info(this._method);
     }
     async __before() {
-        // logger.info("__before");
+        logger.info("__before");
     }
     async getAction() {
         let classes = this.model("classes"),
@@ -22,7 +23,7 @@ export default class extends think.controller.rest {
             regText = new RegExp(queryWords, "i"),
             data = new Array();
 
-        // logger.info(think.isEmpty(id));
+        logger.info(think.isEmpty(id));
         if (think.isEmpty(id)) {
             let classData = await classes.where({
                 $or: [{

@@ -10,11 +10,8 @@ export default class extends think.controller.rest {
         logger.info(this._method);
     }
     async __before() {
-            logger.info("__before");
-        }
-        // async indexAction(){
-        //   return this.json([]);
-        // }
+        logger.info("__before");
+    }
     async getAction() {
         let classes = this.model("classes"),
             page_size = this.get("page_size") || 100,

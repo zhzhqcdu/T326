@@ -6,23 +6,24 @@ $(document).ready(function() {
             alert("请输入查询信息");
             return;
         }
-        $.ajax({
-            type: 'get',
-            "url": "/classes?page_size=100&page=1&queryWords=" + queryWords,
-            cache: false,
-            dataType: 'json',
-            success: function(data) {
-                // console.log(JSON.stringify(data));
-                $('#classInfos').html(doT.template($('#classTmp').html())(data));
-                $('#classInfos table').DataTable({
-                    responsive: false,
-                    dom: 'ti'
-                });
-            },
-            error: function(error) {
-                console.error(error);
-                alert("异常！");
-            }
-        });
-    })
+        $('form').submit();
+        //     $.ajax({
+        //         type: 'get',
+        //         "url": "/classes?page_size=100&page=1&queryWords=" + queryWords,
+        //         cache: false,
+        //         dataType: 'json',
+        //         success: function(data) {
+        //             // console.log(JSON.stringify(data));
+        //             $('#classInfos').html(doT.template($('#classTmp').html())(data));
+        //             $('#classInfos table').DataTable({
+        //                 responsive: false,
+        //                 dom: 'ti'
+        //             });
+        //         },
+        //         error: function(error) {
+        //             console.error(error);
+        //             alert("异常！");
+        //         }
+        //     });
+    });
 });
