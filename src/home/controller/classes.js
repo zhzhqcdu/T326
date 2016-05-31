@@ -23,7 +23,7 @@ export default class extends think.controller.rest {
             regText = new RegExp(queryWords, "i"),
             data = new Array();
 
-        logger.info(think.isEmpty(id));
+        logger.info(id);
         if (think.isEmpty(id)) {
             let classData = await classes.where({
                 $or: [{
@@ -72,7 +72,10 @@ export default class extends think.controller.rest {
                 return this.json();
             } else {
                 data = await students.where({
-                    "clazz_id": classData._id
+                    "clazz_id": classData._id,
+                    "signature": {
+                        $exists: false
+                    }
                 }).select();
             }
         }

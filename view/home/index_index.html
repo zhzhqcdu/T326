@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>签到管理</title>
-    <meta name="description" content="签到管理">
-    <meta name="keywords" content="签到管理">
+    <title><%=title%></title>
+    <meta name="description" content="<%=title%>">
+    <meta name="keywords" content="<%=title%>">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <meta name="apple-mobile-web-app-title" content="签到管理" />
+    <meta name="apple-mobile-web-app-title" content="<%=title%>" />
     <link rel="stylesheet" href="/static/css/amazeui.min.css">
     <link rel="stylesheet" href="/static/css/amazeui.datatables.min.css" />
 
@@ -49,7 +49,7 @@
                       <% if(datas.length) {%>
                         <% datas.forEach(function(val){ %>
                         <tr>
-                            <td class="table-id"><a href='/index/students/<%= val._id %>'><%= val.class_name %></a></td>
+                            <td class="table-id"><a class="am-btn am-btn-link" href='/index/students/?classid=<%= val.class_id %>&semester=<%= val.semester %>'><%= val.class_name %></a></td>
                             <td class="table-date"><%= val.semester %></td>
                             <td class="table-date"><%= val.class_teacher %></td>
                             <td class="table-date"><%= val.class_room %></td>
@@ -59,7 +59,7 @@
                             <td class="table-date"><%= dataFormat(val.end_date,'YYYY-MM-DD') %></td>
                             <td class="table-date">
                                 <label class="am-checkbox-inline">
-                                    <input type="checkbox" value="" data-am-ucheck>&nbsp;
+                                    <input type="checkbox" value="<%= val.class_id %>" id="<%= val.class_id %>" onchange="selected('<%= val.class_id %>')" data-am-ucheck>&nbsp;
                                 </label>
                             </td>
                         </tr>
@@ -75,6 +75,12 @@
                 </table>
             </div>
         </div>
+        <div id="export" class="am-u-sm-12" hidden="">
+          <div class="am-u-sm-10">&nbsp;</div>
+          <div class="am-u-sm-2">
+            <button type="button" class="am-btn am-btn-primary am-btn-xl" onclick="exportPDF();">导出签到(PDF)</button>
+          </div>
+        </div>
     </div>
     </form>
 </body>
@@ -82,6 +88,7 @@
 <script src="/static/js/amazeui.min.js"></script>
 <script src="/static/js/amazeui.datatables.min.js"></script>
 <script src="/static/js/dataTables.responsive.min.js"></script>
+<script src="/static/js/underscore-min.js"></script>
 <script src="/static/js/signatureManager.js"></script>
 
 </html>

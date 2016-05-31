@@ -33,9 +33,8 @@
                             <th class="table-date">身份证号</th>
                             <th class="table-date">手机号</th>
                             <th class="table-date">ERP编号</th>
-                            <th class="table-date">手写签名</th>
                             <th class="table-date">签到日期</th>
-                            <th class="table-date">操作</th>
+                            <th class="table-date">手写签名</th>
                         </tr>
                     </thead>
                     <tbody id="classInfos">
@@ -47,11 +46,12 @@
                             <td class="table-date"><%= val.id_number %></td>
                             <td class="table-date"><%= val.phone_number %></td>
                             <td class="table-date"><%= val.erp_number %></td>
+                            <td class="table-date"><%= val.signature_date?dataFormat(val.signature_date,'YYYY-MM-DD'):"" %></td>
+                            <%if(val.signature){%>
                             <td class="table-date"><img src="<%= val.signature?val.signature:""%>" style="width:100px;height:50px;"></img></td>
-                            <td class="table-date"><%= dataFormat(val.updated_at,'YYYY-MM-DD') %></td>
-                            <td class="table-date">
-                                <button type="button" class="am-btn am-btn-warning am-round" onclick="deleteSig('<%= val._id%>','<%= val.student_name%>');">撤销签名</button>
-                            </td>
+                            <% } else {%>
+                            <td class="table-date"></td>
+                            <% } %>
                         </tr>
                         <% }) %>
                       <% } else {%>
