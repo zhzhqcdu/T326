@@ -8,6 +8,7 @@ import pdf from 'html-pdf-wth-rendering';
 import _ from 'underscore';
 import PDF from 'pdfkit';
 import nodejszip from "nodejs-zip";
+import AdmZip from "adm-zip";
 
 export default class extends Base {
     async indexAction() {
@@ -73,17 +74,20 @@ export default class extends Base {
     }
 
     //下载
-    async downloadAction() {
+    async createdAction() {
         const options = {
             "format": "Letter"
         };
         if (this.isGet()) {
             return this.fail("不允许get");
         }
+        // let ids = this.get("ids"),
         let ids = this.post("ids"),
             createLists = new Array(),
             createRes = new Array();
 
+        // ids = ids.split(",");
+        console.log(ids);
         (async() => {
             //查询结果
             for (let id of ids) {
@@ -102,9 +106,9 @@ export default class extends Base {
                 });
                 let html = await this.fetch(), //渲染模版
                     task = new Promise((resolve, reject) => { //输出pdf
-                        pdf.create(html, options).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
+                        pdf.create(html).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
                             if (err) {
-                                console.log(err);
+                                console.error(err);
                                 return reject(err);
                             }
                             console.log(res);
@@ -116,24 +120,45 @@ export default class extends Base {
             //输出结果模板
             try {
                 createRes = await Promise.all(createLists);
-                let filePath = `./output/zip/${new Date().getTime()}.zip`,
-                    fileList = _.map(createRes, res => {
-                        return res.filename
-                    }),
-                    opts = ['-j'],
-                    zip = new nodejszip();
+                // let zip = new AdmZip(),
+                //     filename = new Date().getTime(),
+                //     filePath = `./output/zip/${filename}.zip`;
 
-                zip.compress(filePath, fileList, opts, function(err) {
+                // console.log(filePath);
+                // _.each(createRes, res => {
+                //     zip.addLocalFile(res.filename);
+                // });
+                // zip.writeZip(filePath);
+                // 
+
+                let filename = new Date().getTime(),
+                    file = `./output/zip/${filename}.zip`,
+                    opts = ['-j'],
+                    fileList = [];
+
+                _.each(createRes, res => {
+                    zip.push(res.filename);
+                });
+
+                var zip = new nodejszip();
+
+                zip.compress(file, fileList, opts, function(err) {
                     if (err) {
                         throw err;
                     }
 
-                    this.download(filePath);
+                    return this.json({ status: "done", filename: filename });
                 });
             } catch (e) {
                 console.error(e);
                 return this.fail(e);
             }
         })();
+    }
+
+    async downloadAction() {
+        let filename = this.post("filename")
+        console.log(`./output/zip/${filename}.zip`);
+        return this.download(`./output/zip/${filename}.zip`);
     }
 }
