@@ -4,7 +4,7 @@ import Base from './base.js';
 import fs from 'fs';
 import querystring from 'querystring';
 import request from "request";
-import pdf from 'html-pdf';
+import pdf from 'html-pdf-wth-rendering';
 import _ from 'underscore';
 import PDF from 'pdfkit';
 import nodejszip from "nodejs-zip";
@@ -75,8 +75,7 @@ export default class extends Base {
     //下载
     async downloadAction() {
         const options = {
-            "format": "Letter",
-            "phantomPath": "./node_modules/phantomjs/bin/phantomjs"
+            "format": "Letter"
         };
         if (this.isGet()) {
             return this.fail("不允许get");
