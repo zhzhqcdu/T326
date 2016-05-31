@@ -75,7 +75,8 @@ export default class extends Base {
     //下载
     async downloadAction() {
         const options = {
-            format: 'Letter'
+            "format": "Letter",
+            "phantomPath": "./node_modules/phantomjs/bin/phantomjs"
         };
         if (this.isGet()) {
             return this.fail("不允许get");
