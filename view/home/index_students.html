@@ -47,7 +47,11 @@
                             <td class="table-date"><%= val.id_number %></td>
                             <td class="table-date"><%= val.phone_number %></td>
                             <td class="table-date"><%= val.erp_number %></td>
+                            <%if(val.signature){%>
                             <td class="table-date"><img src="<%= val.signature?val.signature:""%>" style="width:100px;height:50px;"></img></td>
+                            <% } else {%>
+                            <td class="table-date"></td>
+                            <% } %>
                             <td class="table-date"><%= dataFormat(val.updated_at,'YYYY-MM-DD') %></td>
                             <td class="table-date">
                                 <button type="button" class="am-btn am-btn-warning am-round" onclick="deleteSig('<%= val._id%>','<%= val.student_name%>');">撤销签名</button>

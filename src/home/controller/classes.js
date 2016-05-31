@@ -71,10 +71,10 @@ export default class extends think.controller.rest {
             if (think.isEmpty(classData)) {
                 return this.json();
             } else {
-                data = await students.where({
+                data = await students.order("signature DESC").where({
                     "clazz_id": classData._id,
                     "signature": {
-                        $exists: false
+                        $exists: true
                     }
                 }).select();
             }

@@ -1,12 +1,13 @@
 'use strict';
 
 import Base from './base.js';
+import fs from 'fs';
 import querystring from 'querystring';
 import request from "request";
 import pdf from 'html-pdf-wth-rendering';
 import _ from 'underscore';
 import PDF from 'pdfkit';
-import fs from 'fs';
+import nodejszip from "nodejs-zip";
 
 export default class extends Base {
     async indexAction() {
@@ -21,7 +22,7 @@ export default class extends Base {
                 let res = await fn({
                     url: url,
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 });
                 this.assign({
@@ -51,7 +52,7 @@ export default class extends Base {
             let res = await fn({
                 url: url,
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
             this.assign({
@@ -80,55 +81,59 @@ export default class extends Base {
             return this.fail("不允许get");
         }
         let ids = this.post("ids"),
-            createList = new Array(),
+            createLists = new Array(),
             createRes = new Array();
 
-        //查询结果 输出结果模板
         (async() => {
-            for (var id of ids) {
-                let url = `http://${this.http.host}/classes/${id}/`;
-                let fn = think.promisify(request.get);
-                let res = await fn({
-                    url: url,
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    }
-                });
+            //查询结果
+            for (let id of ids) {
+                let url = `http://${this.http.host}/classes/${id}/`,
+                    fn = think.promisify(request.get),
+                    res = await fn({
+                        url: url,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    });
                 this.assign({
                     title: '签到明细',
                     semester: `${id}`,
                     datas: JSON.parse(res.body)
                 });
-                let html = await this.fetch(); //渲染模版
-
-                let task = new Promise((resolve, reject) => {
-                    pdf.create(html, options).toFile(`./output/${id}.pdf`, (err, res) => {
-                        if (err) {
-                            return console.log(err);
-                            return reject(err);
-                        }
-                        console.log(res);
-                        return resolve(res);
+                let html = await this.fetch(), //渲染模版
+                    task = new Promise((resolve, reject) => { //输出pdf
+                        pdf.create(html, options).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
+                            if (err) {
+                                console.log(err);
+                                return reject(err);
+                            }
+                            console.log(res);
+                            return resolve(res);
+                        });
                     });
-                });
-
-                createList.push(task);
-                createRes.push(`res${id}`);
+                createLists.push(task);
             };
-        })();
+            //输出结果模板
+            try {
+                createRes = await Promise.all(createLists);
+                let filePath = `./output/zip/${new Date().getTime()}.zip`,
+                    fileList = _.map(createRes, res => {
+                        return res.filename
+                    }),
+                    opts = ['-j'],
+                    zip = new nodejszip();
 
-        try {
-            (async() => {
-                createRes = await Promise.all(createList);
-                _.each(createRes, res => {
-                    console.log(new Date() + "==" + res);
+                zip.compress(filePath, fileList, opts, function(err) {
+                    if (err) {
+                        throw err;
+                    }
+
+                    this.download(filePath);
                 });
-                console.log(new Date() + "==1");
-                return this.json({});
-            })();
-        } catch (e) {
-            console.error(e);
-            return this.fail(e);
-        }
+            } catch (e) {
+                console.error(e);
+                return this.fail(e);
+            }
+        })();
     }
 }
