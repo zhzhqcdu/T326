@@ -64,7 +64,7 @@ function exportPDF() {
                 if (data.status == 'done') {
                     $("#" + student_id).hide();
                 } else {
-                    alert("撤销失败");
+                    alert("导出失败！");
                 }
             },
             error: function(error) {
