@@ -59,7 +59,7 @@
                             <td class="table-date"><%= dataFormat(val.end_date,'YYYY-MM-DD') %></td>
                             <td class="table-date">
                                 <label class="am-checkbox-inline">
-                                    <input type="checkbox" value="<%= val.class_id %>" id="<%= val.class_id %>" onchange="selected('<%= val.class_id %>')" data-am-ucheck>&nbsp;
+                                    <input type="checkbox" data-semester="<%= val.semester %>" data-value="<%= val.class_id %>" id="<%= val.class_id %>" onchange="selected();" data-am-ucheck>&nbsp;
                                 </label>
                             </td>
                         </tr>

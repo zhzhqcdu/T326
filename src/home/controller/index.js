@@ -85,6 +85,7 @@ export default class extends Base {
         }
         // let ids = this.get("ids"),
         let ids = this.post("ids"),
+            semester = this.post("semester"),
             createLists = new Array(),
             createRes = new Array();
 
@@ -103,13 +104,12 @@ export default class extends Base {
                     });
                 this.assign({
                     title: '签到明细',
-                    semester: `${id}`,
+                    semester: `${semester[id]}`,
                     datas: JSON.parse(res.body)
                 });
                 let html = await this.fetch(), //渲染模版
                     task = new Promise((resolve, reject) => { //输出pdf
-                        console.log(html);
-                        html = iconv.encode(html,"utf8");
+                        html = iconv.encode(html, "utf8"); //转换格式
                         pdf.create(html.toString("utf8"), options).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
                             if (err) {
                                 logger.error(err);
@@ -126,19 +126,18 @@ export default class extends Base {
                 createRes = await Promise.all(createLists);
 
                 let archive = new zip(),
-                    filename = new Date().getTime(),
-                    output = `./output/zip/${filename}.zip`,
+                    zipname = new Date().getTime(),
+                    output = `./output/zip/${zipname}.zip`,
                     filepaths = new Array();
 
                 filepaths = _.map(createRes, res => {
-                    // logger.info(think.isFile(res.filename));
-                    let name = _.find(ids, id => {
-                        // logger.info(res.filename.indexOf(id));
-                        return res.filename.indexOf(id) > -1;
-                    });
-                    // logger.info(name);
-                    if (!think.isEmpty(name)) {
-                        return { name: `${name}.pdf`, path: res.filename }
+                    let id = _.find(ids, id => {
+                            return res.filename.indexOf(id) > -1;
+                        }),
+                        filename = semester[id];
+                        
+                    if (!think.isEmpty(id)) {
+                        return { name: `${filename}.pdf`, path: res.filename }
                     }
                 });
 
@@ -146,8 +145,8 @@ export default class extends Base {
                     let buff = archive.toBuffer();
 
                     fs.writeFile(output, buff, () => {
-                        logger.info("完成生成文件。");
-                        return this.json({ status: "done", filename: filename });
+                        logger.info("生成zip文件完成。");
+                        return this.json({ status: "done", filename: zipname });
                     });
                 }, function(err) {
                     logger.info(err);

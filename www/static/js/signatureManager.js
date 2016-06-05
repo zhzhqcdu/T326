@@ -45,16 +45,19 @@ function selected() {
 }
 
 function exportPDF() {
-    // var ids = "";
     var ids = new Array();
+    var semester = new Object();
     $("input[type='checkbox']:checked").each(function(index) {
-        ids.push($(this).val());
-        // ids += $(this).val()+",";
+        ids.push($(this).data("value"));
+        semester[$(this).data("value")] = $(this).data("semester");
     });
     var data = {
-        ids: ids
+        ids: ids,
+        semester:semester
     };
-    if (ids.length) {
+
+    // console.log(JSON.stringify(data));
+    if (!_.isEmpty(data)) {
         $.ajax({
             type: 'post',
             "url": "/index/created/",
