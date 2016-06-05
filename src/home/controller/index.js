@@ -79,7 +79,9 @@ export default class extends Base {
     //下载
     async createdAction() {
         const options = {
-            "format": "Letter"
+            "format": "Letter",
+            "type": "pdf",
+            "phantomPath": "./node_modules/phantomjs/bin/phantomjs"
         };
         if (this.isGet()) {
             return this.fail("不允许get");
@@ -109,7 +111,7 @@ export default class extends Base {
                 });
                 let html = await this.fetch(), //渲染模版
                     task = new Promise((resolve, reject) => { //输出pdf
-                        pdf.create(html).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
+                        pdf.create(html,options).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
                             if (err) {
                                 logger.error(err);
                                 return reject(err);
