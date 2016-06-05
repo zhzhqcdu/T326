@@ -1,10 +1,10 @@
 FROM daocloud.io/library/node:5.9.0
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
 COPY package.json /usr/src/app/
+RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
 #安装依赖phantomjs
-RUN sudo apt-get install phantomjs
+#RUN sudo apt-get install phantomjs
 #安装最新版本pm2模块
 RUN cnpm install pm2@latest -g
 #安装依赖
