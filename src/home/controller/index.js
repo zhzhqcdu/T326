@@ -110,7 +110,7 @@ export default class extends Base {
                     task = new Promise((resolve, reject) => { //输出pdf
                         console.log(html);
                         html = iconv.encode(html,"utf8");
-                        pdf.create(html, options).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
+                        pdf.create(html.toString(), options).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
                             if (err) {
                                 logger.error(err);
                                 return reject(err);
