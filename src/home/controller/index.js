@@ -9,6 +9,9 @@ import _ from 'underscore';
 import PDF from 'pdfkit';
 import nodejszip from "nodejs-zip";
 import AdmZip from "adm-zip";
+import zip from "node-native-zip";
+
+var logger = require('tracer').colorConsole();
 
 export default class extends Base {
     async indexAction() {
@@ -33,7 +36,7 @@ export default class extends Base {
                 });
                 return this.display();
             } catch (e) {
-                console.error(e);
+                logger.error(e);
                 return this.display();
             }
         } else {
@@ -63,7 +66,7 @@ export default class extends Base {
             });
             return this.display();
         } catch (e) {
-            console.error(e);
+            logger.error(e);
             this.assign({
                 title: '签到明细',
                 semester: this.get("semester"),
@@ -87,7 +90,7 @@ export default class extends Base {
             createRes = new Array();
 
         // ids = ids.split(",");
-        console.log(ids);
+        logger.info(ids);
         (async() => {
             //查询结果
             for (let id of ids) {
@@ -108,10 +111,10 @@ export default class extends Base {
                     task = new Promise((resolve, reject) => { //输出pdf
                         pdf.create(html).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
                             if (err) {
-                                console.error(err);
+                                logger.error(err);
                                 return reject(err);
                             }
-                            console.log(res);
+                            logger.info(res);
                             return resolve(res);
                         });
                     });
@@ -120,24 +123,42 @@ export default class extends Base {
             //输出结果模板
             try {
                 createRes = await Promise.all(createLists);
+
+                // var archive = new zip();
+
+                // archive.addFiles([
+                //     { name: "moehah.txt", path: "./test/moehah.txt" },
+                //     { name: "images/suz.jpg", path: "./test/images.jpg" }
+                // ], function() {
+                //     var buff = archive.toBuffer();
+
+                //     fs.writeFile("./test2.zip", buff, function() {
+                //         logger.info("Finished");
+                //     });
+                // }, function(err) {
+                //     logger.info(err);
+                // });
+
                 // let zip = new AdmZip(),
                 //     filename = new Date().getTime(),
                 //     filePath = `./output/zip/${filename}.zip`;
 
-                // console.log(filePath);
+                // logger.info(filePath);
                 // _.each(createRes, res => {
                 //     zip.addLocalFile(res.filename);
+                //     logger.info(think.isFile(res.filename));
                 // });
                 // zip.writeZip(filePath);
-                // 
+
+                // return this.json({ status: "done", filename: filename });
 
                 let filename = new Date().getTime(),
                     file = `./output/zip/${filename}.zip`,
                     opts = ['-j'],
                     fileList = [];
 
-                _.each(createRes, res => {
-                    zip.push(res.filename);
+                fileList = _.map(createRes, res => {
+                    return res.filename;
                 });
 
                 var zip = new nodejszip();
@@ -150,7 +171,7 @@ export default class extends Base {
                     return this.json({ status: "done", filename: filename });
                 });
             } catch (e) {
-                console.error(e);
+                logger.error(e);
                 return this.fail(e);
             }
         })();
@@ -158,7 +179,7 @@ export default class extends Base {
 
     async downloadAction() {
         let filename = this.post("filename")
-        console.log(`./output/zip/${filename}.zip`);
+        logger.info(`./output/zip/${filename}.zip`);
         return this.download(`./output/zip/${filename}.zip`);
     }
 }
