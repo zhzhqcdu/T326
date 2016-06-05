@@ -8,12 +8,12 @@ RUN sudo apt-get install phantomjs
 #安装最新版本pm2模块
 RUN cnpm install pm2@latest -g
 #安装依赖
-RUN npm install
 RUN cnpm install phantomjs@1.9.16
+RUN npm install
 #复制工程
 COPY . /usr/src/app
-ENV PORT 8360
-EXPOSE 8360
+ENV PORT 9999
+EXPOSE 9999
 # 线上环境
 RUN npm run compile
 #ENTRYPOINT pm2 start www/production.js --name 'signature'
