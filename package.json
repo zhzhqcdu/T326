@@ -1,7 +1,7 @@
 {
   "name": "T326",
-  "description": "signature application created by thinkjs",
-  "version": "1.1.0",
+  "description": "T326 application created by thinkjs",
+  "version": "1.0.0",
   "scripts": {
     "start": "node www/development.js",
     "compile": "babel --presets es2015-loose,stage-1 --plugins transform-runtime src/ --out-dir app/ --source-maps",
@@ -29,6 +29,6 @@
     "babel-plugin-transform-runtime": "6.x.x",
     "babel-core": "6.x.x"
   },
-  "repository": "https://bitbucket.org/liiklin/signatureweb",
+  "repository": "https://github.com/liiklin/T326.git",
   "license": "MIT"
 }

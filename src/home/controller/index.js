@@ -6,9 +6,6 @@ import querystring from 'querystring';
 import request from "request";
 import pdf from 'html-pdf-wth-rendering';
 import _ from 'underscore';
-import PDF from 'pdfkit';
-import nodejszip from "nodejs-zip";
-import AdmZip from "adm-zip";
 import zip from "node-native-zip";
 
 var logger = require('tracer').colorConsole();
