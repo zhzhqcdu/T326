@@ -80,8 +80,7 @@ export default class extends Base {
     async createdAction() {
         const options = {
             "format": "Letter",
-            "type": "pdf",
-            "phantomPath": "./node_modules/phantomjs/bin/phantomjs"
+            "type": "pdf"
         };
         if (this.isGet()) {
             return this.fail("不允许get");
@@ -111,7 +110,7 @@ export default class extends Base {
                 });
                 let html = await this.fetch(), //渲染模版
                     task = new Promise((resolve, reject) => { //输出pdf
-                        pdf.create(html,options).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
+                        pdf.create(html, options).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
                             if (err) {
                                 logger.error(err);
                                 return reject(err);
@@ -126,20 +125,34 @@ export default class extends Base {
             try {
                 createRes = await Promise.all(createLists);
 
-                // var archive = new zip();
+                let archive = new zip(),
+                    filename = new Date().getTime(),
+                    output = `./output/zip/${filename}.zip`,
+                    filepaths = new Array();
 
-                // archive.addFiles([
-                //     { name: "moehah.txt", path: "./test/moehah.txt" },
-                //     { name: "images/suz.jpg", path: "./test/images.jpg" }
-                // ], function() {
-                //     var buff = archive.toBuffer();
+                filepaths = _.map(createRes, res => {
+                    // logger.info(think.isFile(res.filename));
+                    let name = _.find(ids, id => {
+                        logger.info(res.filename.indexOf(id));
+                        return res.filename.indexOf(id) > -1;
+                    });
+                    // logger.info(name);
+                    if (!think.isEmpty(name)) {
+                        return { name: `${name}.pdf`, path: res.filename }
+                    }
+                });
 
-                //     fs.writeFile("./test2.zip", buff, function() {
-                //         logger.info("Finished");
-                //     });
-                // }, function(err) {
-                //     logger.info(err);
-                // });
+                archive.addFiles(filepaths, () => {
+                    var buff = archive.toBuffer();
+
+                    fs.writeFile(output, buff, () => {
+                        logger.info("完成生成文件。");
+                        return this.json({ status: "done", filename: filename });
+                    });
+                }, function(err) {
+                    logger.info(err);
+                    return this.fail("异常");
+                });
 
                 // let zip = new AdmZip(),
                 //     filename = new Date().getTime(),
@@ -154,24 +167,24 @@ export default class extends Base {
 
                 // return this.json({ status: "done", filename: filename });
 
-                let filename = new Date().getTime(),
-                    file = `./output/zip/${filename}.zip`,
-                    opts = ['-j'],
-                    fileList = [];
+                // let filename = new Date().getTime(),
+                //     file = `./output/zip/${filename}.zip`,
+                //     opts = ['-j'],
+                //     fileList = [];
 
-                fileList = _.map(createRes, res => {
-                    return res.filename;
-                });
+                // fileList = _.map(createRes, res => {
+                //     return res.filename;
+                // });
 
-                var zip = new nodejszip();
+                // var zip = new nodejszip();
 
-                zip.compress(file, fileList, opts, function(err) {
-                    if (err) {
-                        throw err;
-                    }
+                // zip.compress(file, fileList, opts, function(err) {
+                //     if (err) {
+                //         throw err;
+                //     }
 
-                    return this.json({ status: "done", filename: filename });
-                });
+                //     return this.json({ status: "done", filename: filename });
+                // });
             } catch (e) {
                 logger.error(e);
                 return this.fail(e);
