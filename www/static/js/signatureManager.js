@@ -53,7 +53,7 @@ function exportPDF() {
     });
     var data = {
         ids: ids,
-        semester:semester
+        semester: semester
     };
 
     // console.log(JSON.stringify(data));
@@ -69,6 +69,7 @@ function exportPDF() {
                 console.log(data)
                 if (data.status == 'done') {
                     $.download('/index/download/', "filename=" + data.filename, 'post');
+                    // downloadFile('/index/download/?filename=' + data.filename);
                 } else {
                     alert("导出失败！");
                 }
@@ -97,3 +98,14 @@ jQuery.download = function(url, data, method) {
             .appendTo('body').submit().remove();
     };
 };
+
+function downloadFile(url) {
+    try {
+        var elemIF = document.createElement("iframe");
+        elemIF.src = url;
+        elemIF.style.display = "none";
+        document.body.appendChild(elemIF);
+    } catch (e) {
+
+    }
+}

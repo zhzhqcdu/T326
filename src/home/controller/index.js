@@ -135,9 +135,9 @@ export default class extends Base {
                             return res.filename.indexOf(id) > -1;
                         }),
                         filename = semester[id];
-                        
+
                     if (!think.isEmpty(id)) {
-                        return { name: `${filename}.pdf`, path: res.filename }
+                        return { name: `${id}.pdf`, path: res.filename }
                     }
                 });
 
