@@ -7,6 +7,7 @@ import request from "request";
 import pdf from 'html-pdf-wth-rendering';
 import _ from 'underscore';
 import zip from "node-native-zip";
+import iconv from "iconv-lite";
 
 var logger = require('tracer').colorConsole();
 
@@ -108,6 +109,7 @@ export default class extends Base {
                 let html = await this.fetch(), //渲染模版
                     task = new Promise((resolve, reject) => { //输出pdf
                         console.log(html);
+                        html = iconv.encode(html,"utf8");
                         pdf.create(html, options).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
                             if (err) {
                                 logger.error(err);
