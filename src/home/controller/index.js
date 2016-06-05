@@ -4,7 +4,7 @@ import Base from './base.js';
 import fs from 'fs';
 import querystring from 'querystring';
 import request from "request";
-import pdf from 'html-pdf-wth-rendering';
+import pdf from 'html-pdf';
 import _ from 'underscore';
 import zip from "node-native-zip";
 import iconv from "iconv-lite";
@@ -78,7 +78,8 @@ export default class extends Base {
     async createdAction() {
         const options = {
             "format": "Letter",
-            "type": "pdf"
+            //"type": "pdf",
+            "phantomPath": "./node_modules/phantomjs/bin/phantomjs"
         };
         if (this.isGet()) {
             return this.fail("不允许get");
