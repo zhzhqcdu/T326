@@ -107,6 +107,7 @@ export default class extends Base {
                 });
                 let html = await this.fetch(), //渲染模版
                     task = new Promise((resolve, reject) => { //输出pdf
+                        console.log(html);
                         pdf.create(html, options).toFile(`./output/pdf/${id}.pdf`, (err, res) => {
                             if (err) {
                                 logger.error(err);
@@ -130,7 +131,7 @@ export default class extends Base {
                 filepaths = _.map(createRes, res => {
                     // logger.info(think.isFile(res.filename));
                     let name = _.find(ids, id => {
-                        logger.info(res.filename.indexOf(id));
+                        // logger.info(res.filename.indexOf(id));
                         return res.filename.indexOf(id) > -1;
                     });
                     // logger.info(name);
@@ -140,7 +141,7 @@ export default class extends Base {
                 });
 
                 archive.addFiles(filepaths, () => {
-                    var buff = archive.toBuffer();
+                    let buff = archive.toBuffer();
 
                     fs.writeFile(output, buff, () => {
                         logger.info("完成生成文件。");
@@ -150,38 +151,6 @@ export default class extends Base {
                     logger.info(err);
                     return this.fail("异常");
                 });
-
-                // let zip = new AdmZip(),
-                //     filename = new Date().getTime(),
-                //     filePath = `./output/zip/${filename}.zip`;
-
-                // logger.info(filePath);
-                // _.each(createRes, res => {
-                //     zip.addLocalFile(res.filename);
-                //     logger.info(think.isFile(res.filename));
-                // });
-                // zip.writeZip(filePath);
-
-                // return this.json({ status: "done", filename: filename });
-
-                // let filename = new Date().getTime(),
-                //     file = `./output/zip/${filename}.zip`,
-                //     opts = ['-j'],
-                //     fileList = [];
-
-                // fileList = _.map(createRes, res => {
-                //     return res.filename;
-                // });
-
-                // var zip = new nodejszip();
-
-                // zip.compress(file, fileList, opts, function(err) {
-                //     if (err) {
-                //         throw err;
-                //     }
-
-                //     return this.json({ status: "done", filename: filename });
-                // });
             } catch (e) {
                 logger.error(e);
                 return this.fail(e);
