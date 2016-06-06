@@ -17,7 +17,7 @@ npm start
 
 采用 docker 部署的方法
 ```
-docker build -t T326 -f docker/Dockerfile .
+docker build -t t326 -f docker/Dockerfile .
 docker-compose -f docker/docker-compose.yml up -d
 ```
 
