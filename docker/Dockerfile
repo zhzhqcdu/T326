@@ -1,4 +1,4 @@
-FROM daocloud.io/library/node:5.9.0
+FROM daocloud.io/library/node:6.2.1
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
