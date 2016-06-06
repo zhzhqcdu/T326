@@ -4,7 +4,7 @@ import Base from './base.js';
 import fs from 'fs';
 import querystring from 'querystring';
 import request from "request";
-import pdf from 'html-pdf-wth-rendering';
+import pdf from 'html-pdf';
 import _ from 'underscore';
 import zip from "node-native-zip";
 import iconv from "iconv-lite";
