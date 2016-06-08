@@ -22,8 +22,8 @@ RUN echo "deb http://mirrors.163.com/debian jessie main" > /etc/apt/sources.list
 RUN apt-get update -y
 RUN apt-get upgrade -y
 #微软字体
-RUN apt-get install -y ubuntu-restricted-extras
+#RUN apt-get install -y ubuntu-restricted-extras
 #文泉驿-点阵宋体
-RUN apt-get install -y xfonts-wqy
+RUN apt-get install -y fonts-wqy-zenhei 
 #ENTRYPOINT pm2 start www/production.js --name 'T326_web' --no-daemon
 ENTRYPOINT node www/production.js
