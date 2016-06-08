@@ -19,6 +19,6 @@ RUN npm run compile
 #换个镜像
 RUN rm -v /etc/apt/sources.list
 RUN echo "deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list
-RUN apt-get update && apt-get upgrade && apt-get install ttf-mscorefonts-installer xfonts-wqy -y \
+RUN apt-get update && apt-get upgrade && apt-get install ttf-mscorefonts-installer xfonts-wqy -y
 #ENTRYPOINT pm2 start www/production.js --name 'T326_web' --no-daemon
 ENTRYPOINT node www/production.js
