@@ -16,6 +16,8 @@ ENV PORT 9999
 EXPOSE 9999
 # 线上环境
 RUN npm run compile
+#换个镜像
+RUN echo "debian http://mirrors.163.com/debian jessie main" > /etc/apt/sources.list
 #文泉驿-点阵宋体
 RUN apt-get -y update
 RUN apt-get -y upgrade
