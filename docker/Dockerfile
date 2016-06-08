@@ -21,7 +21,7 @@ RUN echo "deb http://mirrors.163.com/debian jessie main" > /etc/apt/sources.list
 RUN apt-get update -y
 RUN apt-get upgrade -y
 #windows字体
-RUN apt-get install unzip、
+RUN apt-get install unzip
 #Tahoma 字体
 RUN wget http://www.stchman.com/tools/MS_fonts/tahoma.zip
 RUN unzip -d /usr/share/fonts/truetype/msttcorefonts ./tahoma.zip
