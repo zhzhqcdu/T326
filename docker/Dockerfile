@@ -16,5 +16,7 @@ ENV PORT 9999
 EXPOSE 9999
 # 线上环境
 RUN npm run compile
+#文泉驿-点阵宋体
+RUN sudo apt-get install xfonts-wqy
 #ENTRYPOINT pm2 start www/production.js --name 'T326_web' --no-daemon
 ENTRYPOINT node www/production.js
