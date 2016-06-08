@@ -14,6 +14,22 @@ RUN npm install
 #复制工程
 COPY . /usr/src/app
 RUN pwd
+#
+#换镜像
+RUN rm -v /etc/apt/sources.list
+RUN echo "deb http://mirrors.163.com/debian jessie main" > /etc/apt/sources.list
+RUN apt-get update -y
+RUN apt-get upgrade -y
+#windows字体
+RUN apt-get install unzip、
+#Tahoma 字体
+RUN wget http://www.stchman.com/tools/MS_fonts/tahoma.zip
+RUN unzip -d /usr/share/fonts/truetype/msttcorefonts ./tahoma.zip
+RUN fc-cache -f -v
+RUN rm -f ./tahoma.zip
+#刷新字体缓存
+RUN fc-cache -f -s -v
+#
 ENV PORT 9999
 EXPOSE 9999
 #线上环境
