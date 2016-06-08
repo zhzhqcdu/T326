@@ -17,9 +17,7 @@ EXPOSE 9999
 # 线上环境
 RUN npm run compile
 #文泉驿-点阵宋体
-RUN apt-get update
-RUN Y
-RUN apt-get upgrade
+RUN apt-get install ttf-mscorefonts-installer #微软字体  
 RUN apt-get install xfonts-wqy
 #ENTRYPOINT pm2 start www/production.js --name 'T326_web' --no-daemon
 ENTRYPOINT node www/production.js
