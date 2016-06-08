@@ -16,14 +16,12 @@ ENV PORT 9999
 EXPOSE 9999
 # 线上环境
 RUN npm run compile
-#换个镜像
-RUN rm -v /etc/apt/sources.list
-RUN echo "deb http://mirrors.163.com/debian jessie main" > /etc/apt/sources.list
-RUN apt-get update -y
-RUN apt-get upgrade -y
-#微软字体
-#RUN apt-get install -y ubuntu-restricted-extras
-#文泉驿-点阵宋体
-RUN apt-get install -y fonts-wqy-zenhei 
+#windows字体
+RUN cd ~
+RUN wget http://www.stchman.com/tools/MS_fonts/tahoma.zip #Tahoma 字体
+RUN sudo unzip -d /usr/share/fonts/truetype/msttcorefonts ~/tahoma.zip
+RUN sudo fc-cache -f -v
+RUN rm -f ~/tahoma.zip
+RUN sudo fc-cache -f -s -v   #刷新字体缓存
 #ENTRYPOINT pm2 start www/production.js --name 'T326_web' --no-daemon
 ENTRYPOINT node www/production.js
