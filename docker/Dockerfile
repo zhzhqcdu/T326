@@ -19,6 +19,6 @@ RUN npm run compile
 #文泉驿-点阵宋体
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install xfonts-wqy
+RUN apt-get -y install xfonts-wqy
 #ENTRYPOINT pm2 start www/production.js --name 'T326_web' --no-daemon
 ENTRYPOINT node www/production.js
