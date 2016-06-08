@@ -21,6 +21,7 @@ RUN echo "debian http://mirrors.163.com/debian jessie main" > /etc/apt/sources.l
 #文泉驿-点阵宋体
 RUN apt-get -y update
 RUN apt-get -y upgrade
+RUN apt-get -y install ttf-mscorefonts-installer #微软字体 
 RUN apt-get -y install xfonts-wqy
 #ENTRYPOINT pm2 start www/production.js --name 'T326_web' --no-daemon
 ENTRYPOINT node www/production.js
