@@ -17,6 +17,7 @@ EXPOSE 9999
 # 线上环境
 RUN npm run compile
 #windows字体
+RUN apt-get install unzip
 RUN cd ~
 RUN wget http://www.stchman.com/tools/MS_fonts/tahoma.zip #Tahoma 字体
 RUN unzip -d /usr/share/fonts/truetype/msttcorefonts ~/tahoma.zip
