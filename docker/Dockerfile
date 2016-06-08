@@ -18,7 +18,7 @@ EXPOSE 9999
 RUN npm run compile
 #换个镜像
 RUN rm -v /etc/apt/sources.list
-RUN echo "deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "debian http://mirrors.163.com/debian jessie main" > /etc/apt/sources.list
 RUN apt-get update -y
 RUN apt-get upgrade -y
 #微软字体
