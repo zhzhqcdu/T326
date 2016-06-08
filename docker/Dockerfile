@@ -19,8 +19,8 @@ RUN npm run compile
 #windows字体
 RUN cd ~
 RUN wget http://www.stchman.com/tools/MS_fonts/tahoma.zip #Tahoma 字体
-RUN sudo unzip -d /usr/share/fonts/truetype/msttcorefonts ~/tahoma.zip
-RUN sudo fc-cache -f -v
+RUN unzip -d /usr/share/fonts/truetype/msttcorefonts ~/tahoma.zip
+RUN fc-cache -f -v
 RUN rm -f ~/tahoma.zip
 RUN sudo fc-cache -f -s -v   #刷新字体缓存
 #ENTRYPOINT pm2 start www/production.js --name 'T326_web' --no-daemon
