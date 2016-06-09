@@ -1,5 +1,5 @@
-#FROM daocloud.io/library/node:6.2.1
-FROM index.alauda.cn/gugud/node:6.2.1
+FROM daocloud.io/library/node:6.2.1
+#FROM index.alauda.cn/gugud/node:6.2.1
 #创建目录
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
