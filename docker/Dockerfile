@@ -7,9 +7,10 @@ COPY package.json /usr/src/app/
 RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
 #安装最新版本pm2模块
 RUN cnpm install pm2@latest -g
+#安装phantomjs依赖
+RUN cnpm install phantomjs@1.9.16 html-pdf-wth-rendering@1.2.2
 #安装依赖
-RUN cnpm install phantomjs@1.9.16
-RUN npm install
+RUN cnpm install
 #复制工程
 COPY . /usr/src/app
 #设置环境
