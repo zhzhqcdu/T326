@@ -6,7 +6,7 @@ RUN echo "deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe 
 
 RUN apt-get update && apt-get install -y \
     ttf-mscorefonts-installer \
-    xfonts-wqy \
+    xfonts-wqy
 
 #创建目录
 RUN mkdir -p /usr/src/app
