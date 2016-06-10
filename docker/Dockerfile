@@ -1,5 +1,13 @@
 #FROM daocloud.io/library/node:6.2.1
 FROM index.alauda.cn/gugud/node:6.2.1
+
+RUN rm -v /etc/apt/sources.list
+RUN echo "deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse" >> /etc/apt/sources.list
+
+RUN apt-get update && apt-get install -y \
+    ttf-mscorefonts-installer \
+    xfonts-wqy \
+
 #创建目录
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
